@@ -1,15 +1,8 @@
-import { getNumberOfTank, format, write, read } from './utils';
-import csv from 'csvtojson';
+import formatter from './formatter';
 
-let data = [];
-csv()
-    .fromString(read('src/files/inventory.csv'))
-    .on('csv', (csvRow) => {
-        if (csvRow.length !== 0)
-            data.push(csvRow);
-    })
-    .on('done', () => {
-        let numberOfTank = getNumberOfTank(data);
-        let formatted = format(numberOfTank, data);
-        write(formatted, { header: true });
+const headers = ['Date', 'Time', 'T.ID', 'GP.Vol', 'NP.Vol', 'Wat.Vol', 'GT.Vol', 'NT.Vol', 'Prd.Lvl', 'Wat.Lvl', 'Ullage', 'Avg.Tmp', 'Prd.Wgt', 'Prd.Dens'];
+
+formatter('src/files/inventory.csv', { isPath: true, headers })
+    .then(res => {
+        console.log(res);
     });

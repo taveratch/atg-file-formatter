@@ -1,8 +1,6 @@
 import fs from 'fs';
 import _ from 'lodash';
 
-const headers = ['Date', 'Time', 'T.ID', 'GP.Vol', 'NP.Vol', 'Wat.Vol', 'GT.Vol', 'NT.Vol', 'Prd.Lvl', 'Wat.Lvl', 'Ullage', 'Avg.Tmp', 'Prd.Wgt', 'Prd.Dens'];
-
 export const getNumberOfTank = data => {
     let i = 0;
     for (let x in data) {
@@ -39,12 +37,22 @@ export const format = (numberOfTank, data) => {
 
 export const write = (data, options = {}) => {
     let stream = fs.createWriteStream('src/files/formatted_inventory.csv');
-    if (options.header)
-        stream.write(headers.toString() + '\n');
+    if (options.headers)
+        stream.write(options.headers.toString() + '\n');
     data.map(row => {
         stream.write(row.toString() + '\n');
     });
     stream.end();
+};
+
+export const compile = (data, options = {}) => {
+    let string = '';
+    if (options.headers)
+        string += options.headers.toString() + '\n';
+    data.map(row => {
+        string += row.toString() + '\n';
+    });
+    return string;
 };
 
 export const read = (path) => {
