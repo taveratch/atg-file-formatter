@@ -14,7 +14,7 @@ export default (pathOrText, { isPath, useHeader }) => {
         csv()
             .fromString(text)
             .on('csv', (csvRow) => {
-                if (csvRow.length !== 0)
+                if (csvRow.length > 5)
                     data.push(csvRow);
             })
             .on('done', () => {
